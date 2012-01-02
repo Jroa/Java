@@ -1,0 +1,1 @@
+insert into Empleado(nombre, apellido, numDocumento) values('Jonathan','Roa','42364208');
