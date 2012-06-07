@@ -40,7 +40,7 @@ public class EmpleadoDaoTest {
 	
 	@Test
 	public void buscarTodosTest(){
-		Assert.assertNotSame(0, empleadoDao.buscarTodos().size());
+		Assert.assertTrue(empleadoDao.buscarTodos().size() > 0);
 		logger.debug("buscarTodos Ejecutado");
 	}
 	

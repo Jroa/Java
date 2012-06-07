@@ -13,14 +13,15 @@
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-	
-
+	 	
 	<context:component-scan base-package="pe.com.jroa.mantenimiento" />
-	
+
 	<bean id = "empleadoController" class="pe.com.jroa.mantenimiento.controller.EmpleadoController" /> 
-	
-	<bean id = "jsonProvider" class= "org.apache.cxf.jaxrs.provider.JSONProvider"/>
-	
+
+	<!-- <bean id = "jsonProvider" class= "org.apache.cxf.jaxrs.provider.JSONProvider"/> -->
+	<bean id='jsonProvider' class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider" />
+
+
 	<jaxrs:server id="restContainer" address ="/rest">
 		<jaxrs:serviceBeans>
 			<ref bean="empleadoController"/>
@@ -29,6 +30,7 @@
 			<ref bean="jsonProvider"/>
 		</jaxrs:providers>
 	</jaxrs:server>
+
 	
 	<jdbc:embedded-database id="dataSource">
 		<jdbc:script location="classpath:schema.sql"/>

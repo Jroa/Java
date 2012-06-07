@@ -1,5 +1,8 @@
 package pe.com.jroa.mantenimiento.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="empleado")
 public class Empleado {
 	private int idEmpleado;
 	private String nombre;
