@@ -29,7 +29,7 @@ public class EmpleadoDaoTest {
 		empleado = new Empleado();
 		empleado.setNombre("Juan");
 		empleado.setApellido("Diaz");
-		empleado.setNumDocumento("12345678");
+		empleado.setNumDocumento("74108520");
 	}
 	
 	@Test

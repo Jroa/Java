@@ -27,7 +27,7 @@ public class EmpleadoServiceTest {
 		empleado = new Empleado();
 		empleado.setNombre("Eduardo");
 		empleado.setApellido("Tenorio");
-		empleado.setNumDocumento("44445555");
+		empleado.setNumDocumento("12345678");
 	}
 	
 	@Test
