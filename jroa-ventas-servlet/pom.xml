@@ -8,11 +8,21 @@
   <name>jroa-ventas-servlet Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>      
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.2</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>5.1.10</version>
     </dependency>
   </dependencies>
   <build>
