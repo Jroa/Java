@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public abstract class VentasFactoryDao {
-
 	public abstract LocalDao getLocalDao();
 	public abstract VendedorDao getVendedorDao();
 	
@@ -13,9 +12,8 @@ public abstract class VentasFactoryDao {
 		
 		try{			
 			//Aqui se instancia la clase
-			//ventasFactoryDao = new VentasFactoryDaoMysql();
 			Properties properties = new Properties();
-			InputStream inputStream = VentasFactoryDao.class.getResourceAsStream("/pe/com/jroa/ventas/dao/factory.properties"); 
+			InputStream inputStream = VentasFactoryDao.class.getResourceAsStream("/pe/com/jroa/ventas/dao/factorydao.properties"); 
 			properties.load(inputStream);
 			String clase = properties.getProperty("clase");
 			ventasFactoryDao = (VentasFactoryDao)Class.forName(clase).newInstance();
