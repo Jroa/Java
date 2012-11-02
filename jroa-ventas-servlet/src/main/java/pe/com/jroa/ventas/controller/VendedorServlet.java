@@ -21,7 +21,8 @@ import pe.com.jroa.ventas.util.Sexo;
 @WebServlet(name="VendedorServlet", urlPatterns={"/vendedornuevo.htm",
 												"/vendedormodificar.htm",
 												"/vendedoreliminar.htm",
-												"/vendedorconsultarpornombre.htm"})
+												"/vendedorconsultarpornombre.htm",
+												"/abrirvendedorconsultar.htm"})
 public class VendedorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Logger logger = Logger.getLogger(VendedorServlet.class);
@@ -39,6 +40,8 @@ public class VendedorServlet extends HttpServlet {
 			eliminar(req, resp);
 		}else if (path.equals("/vendedorconsultarpornombre.htm")){
 			consultarPorNombre(req, resp);
+		}else if (path.equals("/abrirvendedorconsultar.htm")){
+			abrirVendedorConsultar(req, resp);
 		}
 		
 	}
@@ -110,7 +113,12 @@ public class VendedorServlet extends HttpServlet {
 			HttpServletResponse resp)
 			throws ServletException, IOException {
 
-}
+	}
 	
+	public void abrirVendedorConsultar(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException{
+
+		resp.sendRedirect("vendedorconsultar.jsp");
+	}
 	
 }
