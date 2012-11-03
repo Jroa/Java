@@ -1,6 +1,7 @@
 package pe.com.jroa.ventas.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -110,15 +111,29 @@ public class VendedorServlet extends HttpServlet {
 	}
 
 	public void consultarPorNombre(HttpServletRequest req, 
-			HttpServletResponse resp)
-			throws ServletException, IOException {
-
+			HttpServletResponse resp) throws ServletException, IOException {
+			try {
+				VendedorService vendedorService = VentasFactoryService.getFactory().getVendedorService();
+				String nombre = req.getParameter("txtNombre");
+				List<Vendedor> vendedores = null;
+				vendedores = vendedorService.traerPorNombre(nombre);
+				req.setAttribute("vendedores", vendedores);
+				req.setAttribute("nombre", nombre);
+				
+				redirectServlet("/jsp/vendedorconsultar.jsp",req,resp);
+			} catch (VentasServiceException ex) {
+				logger.error(ex.getMessage());
+			} catch (Exception ex){
+				ex.printStackTrace();
+				resp.sendRedirect("error.jsp");
+			}
 	}
 	
 	public void abrirVendedorConsultar(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException{
 
-		resp.sendRedirect("vendedorconsultar.jsp");
+		//resp.sendRedirect("vendedorconsultar.jsp");
+		redirectServlet("/jsp/vendedorconsultar.jsp",req,resp);
 	}
 	
 }

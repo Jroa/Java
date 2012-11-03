@@ -234,7 +234,7 @@ public class VendedorDaoMysql implements VendedorDao{
 		Vendedor vendedor = null;
 		try{
 			connection = ConexionMysql.getInstance().getConnection();
-			sql = "select * from vendedor, local where vendedor.loc_id = local_loc_id and vendedor.ven_nom like ?";
+			sql = "select * from vendedor, local where vendedor.loc_id = local.loc_id and vendedor.ven_nom like ?";
 			preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
 			preparedStatement.setString(1, nombre + "%");
 			resultSet = preparedStatement.executeQuery();
