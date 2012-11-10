@@ -2,10 +2,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<title>Consulta de Vendedores</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">	
+	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+	<script src="js/jquery-1.8.2.js"></script>
+	<script type="text/javascript">
+		var vendedorViewNew = function(){
+			location.href="vendedorviewnew.htm";
+		};
+	</script>	
 </head>
 <body>
 	<div class="row">
@@ -16,7 +22,7 @@
 				<label>Nombre: </label> 
 				<input type="text" name="txtNombre" id="txtNombre" size="50" class="input-medium search-query" value="${nombre}"/>
 				<input type="submit" name="btnConsultar" id="btnConsultar" value="Consultar" class="btn"/>
-				<input type="button" onclick="" name="btnNuevo" id="btnNuevo" value="Nuevo" class="btn btn-primary">
+				<input type="button" onclick="vendedorViewNew()" name="btnNuevo" id="btnNuevo" value="Nuevo" class="btn btn-primary">
 			</form>
 			
 			
@@ -38,7 +44,7 @@
 							<td>${vendedor.telefono}</td>
 							<td>${vendedor.local.nombre}</td>
 							<td>
-							<a class="btn btn-small" href="#"><i class="icon-pencil"></i></a>
+							<a class="btn btn-small" href="vendedorviewedit.htm?id=${vendedor.id}"><i class="icon-pencil"></i></a>
 							<a class="btn btn-small" href="#"><i class="icon-trash"></i></a>
 							</td>
 						</tr>								

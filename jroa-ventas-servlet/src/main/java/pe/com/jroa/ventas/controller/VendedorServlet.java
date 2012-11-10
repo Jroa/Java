@@ -1,6 +1,7 @@
 package pe.com.jroa.ventas.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,17 +14,20 @@ import org.apache.log4j.Logger;
 
 import pe.com.jroa.ventas.entities.Local;
 import pe.com.jroa.ventas.entities.Vendedor;
+import pe.com.jroa.ventas.service.LocalService;
 import pe.com.jroa.ventas.service.VendedorService;
 import pe.com.jroa.ventas.service.VentasFactoryService;
 import pe.com.jroa.ventas.service.VentasServiceException;
 import pe.com.jroa.ventas.util.Fecha;
 import pe.com.jroa.ventas.util.Sexo;
 
-@WebServlet(name="VendedorServlet", urlPatterns={"/vendedornuevo.htm",
-												"/vendedormodificar.htm",
-												"/vendedoreliminar.htm",
+@WebServlet(name="VendedorServlet", urlPatterns={"/vendedorsavenew.htm",
+												"/vendedorsaveedit.htm",
+												"/vendedordelete.htm",
 												"/vendedorconsultarpornombre.htm",
-												"/abrirvendedorconsultar.htm"})
+												"/vendedorlista.htm",
+												"/vendedorviewedit.htm",
+												"/vendedorviewnew.htm"})
 public class VendedorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Logger logger = Logger.getLogger(VendedorServlet.class);
@@ -33,16 +37,20 @@ public class VendedorServlet extends HttpServlet {
 		
 		String path = req.getServletPath();
 		
-		if(path.equals("/vendedornuevo.htm")){
-			nuevo(req, resp);
-		}else if (path.equals("/vendedormodificar.htm")){
-			modificar(req, resp);
-		}else if (path.equals("/vendedoreliminar.htm")){
-			eliminar(req, resp);
+		if(path.equals("/vendedorsavenew.htm")){
+			saveNew(req, resp);
+		}else if (path.equals("/vendedorsaveedit.htm")){
+			saveEdit(req, resp);
+		}else if (path.equals("/vendedordelete.htm")){
+			delete(req, resp);
 		}else if (path.equals("/vendedorconsultarpornombre.htm")){
 			consultarPorNombre(req, resp);
-		}else if (path.equals("/abrirvendedorconsultar.htm")){
-			abrirVendedorConsultar(req, resp);
+		}else if (path.equals("/vendedorlista.htm")){
+			abrirVendedorLista(req, resp);
+		}else if (path.equals("/vendedorviewedit.htm")){
+			abrirVendedorViewEdit(req, resp);
+		}else if (path.equals("/vendedorviewnew.htm")){
+			abrirVendedorViewNew(req, resp);
 		}
 		
 	}
@@ -51,7 +59,7 @@ public class VendedorServlet extends HttpServlet {
 		this.getServletContext().getRequestDispatcher(path).forward(req, resp);
 	}
 	
-	public void nuevo(HttpServletRequest req, 
+	public void saveNew(HttpServletRequest req, 
 						HttpServletResponse resp)
 						throws ServletException, IOException {
 
@@ -60,24 +68,25 @@ public class VendedorServlet extends HttpServlet {
 			Vendedor vendedor = new Vendedor();
 			vendedor.setNombre(req.getParameter("txtNombre"));
 			vendedor.setApellido(req.getParameter("txtApellido"));
+			vendedor.setTelefono(req.getParameter("txtTelefono"));
 			vendedor.setDireccion(req.getParameter("txtDireccion"));
-			vendedor.setFecnac(Fecha.getDateFromString("txtFecNac"));
+			vendedor.setFecnac(Fecha.getDateFromString(req.getParameter("txtFecNac")));
 			vendedor.setSexo(Sexo.convertStringToBoolean(req.getParameter("rbtnSexo")));
-			
 			Local local = new Local();
 			local.setId(Integer.parseInt(req.getParameter("cboLocal")));
 			vendedor.setLocal(local);
-			
+
 			vendedorService.crear(vendedor);
-			redirectServlet("/abrirvendedornuevo.htm", req, resp);
+			redirectServlet("/vendedorlista.htm", req, resp);
 		} catch (VentasServiceException ex) {
 			logger.error(ex.getMessage());
 		} catch (Exception ex){
+			ex.printStackTrace();
 			resp.sendRedirect("error.jsp");
 		}
 	}
 
-	public void modificar(HttpServletRequest req, 
+	public void saveEdit(HttpServletRequest req, 
 						HttpServletResponse resp)
 						throws ServletException, IOException {
 
@@ -87,26 +96,31 @@ public class VendedorServlet extends HttpServlet {
 			vendedor.setId(Integer.parseInt(req.getParameter("txtId")));
 			vendedor.setNombre(req.getParameter("txtNombre"));
 			vendedor.setApellido(req.getParameter("txtApellido"));
+			vendedor.setTelefono(req.getParameter("txtTelefono"));
 			vendedor.setDireccion(req.getParameter("txtDireccion"));
-			vendedor.setFecnac(Fecha.getDateFromString("txtFecNac"));
+			vendedor.setFecnac(Fecha.getDateFromString(req.getParameter("txtFecNac")));
 			vendedor.setSexo(Sexo.convertStringToBoolean(req.getParameter("rbtnSexo")));
 			
 			Local local = new Local();
 			local.setId(Integer.parseInt(req.getParameter("cboLocal")));
 			vendedor.setLocal(local);
 			
-			vendedorService.crear(vendedor);
-			redirectServlet("/vendedorconsultarpornombre.htm?txtNombre="+req.getParameter("txtFiltro"), req, resp);
+			vendedorService.modificar(vendedor);
+			//redirectServlet("/vendedorconsultarpornombre.htm?txtNombre="+req.getParameter("txtFiltro"), req, resp);
+			redirectServlet("/vendedorlista.htm", req, resp);
 		} catch (VentasServiceException ex) {
 			logger.error(ex.getMessage());
 		} catch (Exception ex){
+			ex.printStackTrace();
 			resp.sendRedirect("error.jsp");
 		}		
 	}
 
-	public void eliminar(HttpServletRequest req, 
+	public void delete(HttpServletRequest req, 
 						HttpServletResponse resp)
 						throws ServletException, IOException {
+		
+		
 		
 	}
 
@@ -120,7 +134,7 @@ public class VendedorServlet extends HttpServlet {
 				req.setAttribute("vendedores", vendedores);
 				req.setAttribute("nombre", nombre);
 				
-				redirectServlet("/jsp/vendedorconsultar.jsp",req,resp);
+				redirectServlet("/jsp/vendedorlist.jsp",req,resp);
 			} catch (VentasServiceException ex) {
 				logger.error(ex.getMessage());
 			} catch (Exception ex){
@@ -129,11 +143,61 @@ public class VendedorServlet extends HttpServlet {
 			}
 	}
 	
-	public void abrirVendedorConsultar(HttpServletRequest req,
+	public void abrirVendedorLista(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException{
 
 		//resp.sendRedirect("vendedorconsultar.jsp");
-		redirectServlet("/jsp/vendedorconsultar.jsp",req,resp);
+		redirectServlet("/jsp/vendedorlist.jsp",req,resp);
+	}
+	
+	
+	public void abrirVendedorViewEdit(HttpServletRequest req, 
+			HttpServletResponse resp) throws ServletException, IOException{
+	
+		try {
+			List<Local> locales = new ArrayList<Local>();
+			LocalService localService = VentasFactoryService.getFactory().getLocalService();
+			locales = localService.traerTodos();
+			String vendedorAction = "vendedorsaveedit.htm";
+			
+			VendedorService vendedorService = VentasFactoryService.getFactory().getVendedorService();
+			Vendedor vendedor = new Vendedor();
+			int vendedorId = Integer.parseInt(req.getParameter("id"));
+			vendedor.setId(vendedorId);
+			vendedor = vendedorService.traerPorId(vendedor);
+			
+			req.setAttribute("locales", locales);
+			req.setAttribute("vendedorAction", vendedorAction);
+			
+			req.setAttribute("vendedor", vendedor);
+			
+			redirectServlet("/jsp/vendedorview.jsp", req, resp);
+		} catch (VentasServiceException ex) {
+			logger.error(ex.getMessage());
+		} catch (Exception ex){
+			ex.printStackTrace();
+			resp.sendRedirect("error.jsp");
+		}
+	}
+	
+	public void abrirVendedorViewNew(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException{
+	
+		try {
+			LocalService localService = VentasFactoryService.getFactory().getLocalService();
+			List<Local> locales = new ArrayList<Local>();
+			locales = localService.traerTodos();
+			String vendedorAction = "vendedorsavenew.htm";
+			
+			req.setAttribute("locales", locales);
+			req.setAttribute("vendedorAction", vendedorAction);
+			
+			redirectServlet("/jsp/vendedorview.jsp", req, resp);
+		} catch (VentasServiceException ex) {
+			logger.error(ex.getMessage());
+		} catch (Exception ex){
+			resp.sendRedirect("error.jsp");
+		}
 	}
 	
 }

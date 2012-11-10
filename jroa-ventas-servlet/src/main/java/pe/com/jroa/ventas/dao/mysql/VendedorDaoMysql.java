@@ -59,6 +59,7 @@ public class VendedorDaoMysql implements VendedorDao{
 			throw new VentasDaoException("Error: No se pudo crear el registro");
 		}catch(Exception ex){
 			logger.error(ex.getMessage());
+			ex.printStackTrace();
 			throw new VentasDaoException("Error: Desconocido");
 		}finally{
 			ConexionMysql.getInstance().closeStatement(prepareStatement);
@@ -100,6 +101,7 @@ public class VendedorDaoMysql implements VendedorDao{
 			logger.error(ex.getMessage());
 			throw new VentasDaoException("Error: No se pudo modificar el vendedor");
 		}catch(Exception ex){
+			ex.printStackTrace();
 			logger.error(ex.getMessage());
 			throw new VentasDaoException("Error: Desconocido");
 		}finally{
@@ -158,6 +160,7 @@ public class VendedorDaoMysql implements VendedorDao{
 				vendedorEncontrado.setId(resultSet.getInt("ven_id"));
 				vendedorEncontrado.setNombre(resultSet.getString("ven_nom"));
 				vendedorEncontrado.setApellido(resultSet.getString("ven_ape"));
+				vendedorEncontrado.setTelefono(resultSet.getString("ven_tel"));
 				vendedorEncontrado.setDireccion(resultSet.getString("ven_dir"));
 				vendedorEncontrado.setFecnac(resultSet.getDate("ven_fec_nac"));
 				vendedorEncontrado.setSexo(resultSet.getBoolean("ven_sexo"));

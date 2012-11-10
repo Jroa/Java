@@ -27,6 +27,7 @@ public class VendedorDaoMysqlTest {
 		vendedor.setNombre("Jonathan");
 		vendedor.setApellido("Roa");
 		vendedor.setDireccion("direccion");
+		vendedor.setTelefono("696969");
 		vendedor.setFecnac(Fecha.getDateFromString("30/04/1984"));
 		vendedor.setSexo(true);
 		vendedor.setLocal(local);

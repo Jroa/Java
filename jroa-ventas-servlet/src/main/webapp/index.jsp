@@ -1,9 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:redirect url="abrirvendedorconsultar.htm" />
+<c:redirect url="vendedorlista.htm" />
 <!DOCTYPE HTML>
 <html lang="es">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<title>Aplicacion de Ventas</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">

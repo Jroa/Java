@@ -3,9 +3,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import pe.com.jroa.ventas.dao.VentasDaoException;
-import pe.com.jroa.ventas.dao.VentasFactoryDao;
-
 
 public class VentasFactoryDaoTest {
 
