@@ -77,7 +77,8 @@ public class VendedorServlet extends HttpServlet {
 			vendedor.setLocal(local);
 
 			vendedorService.crear(vendedor);
-			redirectServlet("/vendedorlista.htm", req, resp);
+			//redirectServlet("/vendedorlista.htm", req, resp);
+			mostrarVendedores(req, resp);
 		} catch (VentasServiceException ex) {
 			logger.error(ex.getMessage());
 		} catch (Exception ex){
@@ -106,8 +107,8 @@ public class VendedorServlet extends HttpServlet {
 			vendedor.setLocal(local);
 			
 			vendedorService.modificar(vendedor);
-			//redirectServlet("/vendedorconsultarpornombre.htm?txtNombre="+req.getParameter("txtFiltro"), req, resp);
-			redirectServlet("/vendedorlista.htm", req, resp);
+			//redirectServlet("/vendedorlista.htm", req, resp);
+			mostrarVendedores(req, resp);
 		} catch (VentasServiceException ex) {
 			logger.error(ex.getMessage());
 		} catch (Exception ex){
@@ -120,8 +121,21 @@ public class VendedorServlet extends HttpServlet {
 						HttpServletResponse resp)
 						throws ServletException, IOException {
 		
-		
-		
+		try{
+			VendedorService vendedorService = VentasFactoryService.getFactory().getVendedorService();
+			Vendedor vendedor = new Vendedor();
+			int id = Integer.parseInt(req.getParameter("id"));
+			vendedor.setId(id);
+			vendedorService.eliminar(vendedor);
+			
+			//redirectServlet("/vendedorlista.htm", req, resp);
+			mostrarVendedores(req, resp);
+		}catch(VentasServiceException ex){
+			logger.error(ex.getMessage());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			resp.sendRedirect("error.jsp");
+		}
 	}
 
 	public void consultarPorNombre(HttpServletRequest req, 
@@ -143,10 +157,26 @@ public class VendedorServlet extends HttpServlet {
 			}
 	}
 	
+	public void mostrarVendedores(HttpServletRequest req, 
+			HttpServletResponse resp) throws ServletException, IOException{
+		try{
+			VendedorService vendedorService = VentasFactoryService.getFactory().getVendedorService();
+			List<Vendedor> vendedores = null;
+			vendedores = vendedorService.traerPorNombre("");
+			req.setAttribute("vendedores", vendedores);
+			
+			redirectServlet("/jsp/vendedorlist.jsp", req, resp);
+		}catch(VentasServiceException ex){
+			logger.error(ex.getMessage());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			resp.sendRedirect("error.jsp");
+		}
+	}
+	
 	public void abrirVendedorLista(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException{
 
-		//resp.sendRedirect("vendedorconsultar.jsp");
 		redirectServlet("/jsp/vendedorlist.jsp",req,resp);
 	}
 	

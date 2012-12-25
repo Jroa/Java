@@ -45,7 +45,7 @@
 							<td>${vendedor.local.nombre}</td>
 							<td>
 							<a class="btn btn-small" href="vendedorviewedit.htm?id=${vendedor.id}"><i class="icon-pencil"></i></a>
-							<a class="btn btn-small" href="#"><i class="icon-trash"></i></a>
+							<a class="btn btn-small" href="vendedordelete.htm?id=${vendedor.id}"><i class="icon-trash"></i></a>
 							</td>
 						</tr>								
 					</c:forEach>
