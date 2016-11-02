@@ -1,0 +1,18 @@
+<soapenv:Envelope
+	xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:aut="http://exomple/author"
+	xmlns:lib="http://example/library">
+	<soapenv:Header/>
+	<soapenv:Body>
+		<aut:AuthorRequest>
+		   <aut:transaction_header>
+		      <lib:request_datetime>2016-10-20T10:30:48.000</lib:request_datetime>
+		   </aut:transaction_header>
+		   <aut:transaction_body>
+		      <aut:author_id>1</aut:author_id>
+		      <aut:author_name>Howard Phillips</aut:author_name>
+		      <aut:author_lastname>Lovecraft</aut:author_lastname>
+		   </aut:transaction_body>
+		</aut:AuthorRequest>
+	</soapenv:Body>
+</soapenv:Envelope>
