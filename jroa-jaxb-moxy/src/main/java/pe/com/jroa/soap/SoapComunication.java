@@ -6,8 +6,14 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
+import org.w3c.dom.Document;
+
+import pe.com.jroa.util.ResponseUtil;
+import pe.com.jroa.util.XmlUtil;
 import pe.com.jroa.xml.RequestXml;
+import pe.com.jroa.xml.ResponseXml;
 
 public class SoapComunication {
 	
@@ -55,5 +61,39 @@ public class SoapComunication {
 		String xmlEnvelope = request.getTagsEnvelope();
 		String xmlRequest = xmlEnvelope.replace("{OBJECT_XML}", xmlString);
 		return xmlRequest;
+	}
+	
+	
+	public ResponseXml generateObjectFromResponseXmlString(String xmlStringResponse){
+		String xmlString = this.deleteEnvelope(xmlStringResponse);
+		
+		Object objectResponse = this.generateObject(xmlString);
+		
+		return (ResponseXml) objectResponse;
+	}
+	
+	
+	protected Object generateObject(String xmlString){
+		try {
+			JAXBContext jc = JAXBContext.newInstance("pe.com.jroa.xml");
+			Unmarshaller unmarshaller = jc.createUnmarshaller();
+			
+			Document documentXml = XmlUtil.convertStringToXmlDocument(xmlString);
+			
+			return unmarshaller.unmarshal(documentXml);
+
+		} catch (JAXBException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}	
+	
+	
+	protected String deleteEnvelope(String xmlStringResponse){
+		Map<String,String> tagsEnvelope = ResponseUtil.getTagsEnvelope(xmlStringResponse);
+		for (Map.Entry<String, String> itemNS : tagsEnvelope.entrySet()){
+			xmlStringResponse = xmlStringResponse.replace(itemNS.getKey(), itemNS.getValue());
+		}
+		return xmlStringResponse;		
+	}
 }

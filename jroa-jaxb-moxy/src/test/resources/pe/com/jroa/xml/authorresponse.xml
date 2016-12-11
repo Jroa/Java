@@ -1,0 +1,16 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Body>
+		<aut:AuthorResponse
+			xmlns:aut="http://exomple/author"
+			xmlns:lib="http://example/library">
+			<aut:transaction_header>
+				<lib:response_datetime>2016-04-13 12:36:15.222</lib:response_datetime>
+			</aut:transaction_header>
+			<aut:transaction_body>
+				<aut:title>The Call of Cthulhu</aut:title>
+				<aut:date_published>Feb 1928</aut:date_published>
+				<aut:form>Short story</aut:form>
+			</aut:transaction_body>
+		</aut:AuthorResponse>
+	</S:Body>
+</S:Envelope>
